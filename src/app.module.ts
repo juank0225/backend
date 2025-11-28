@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { TecnoParqueModule } from './indicadores/tecnoparque/tecnoparque.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
       synchronize: false, 
     }),
     AuthModule,
+    TecnoParqueModule,
   ],
   controllers: [AppController],
   providers: [AppService],
