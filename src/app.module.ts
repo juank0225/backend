@@ -4,6 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { TecnoParqueModule } from './indicadores/tecnoparque/tecnoparque.module';
+import { TecnoAcademiaModule } from './indicadores/tecnoacademia/tecnoacademia.module';
+import { LaboratorioModule } from './indicadores/laboratorio/laboratorio.module';
+import { InvestigacionModule } from './indicadores/investigacion/investigacion.module';
 
 @Module({
   imports: [
@@ -19,6 +22,9 @@ import { TecnoParqueModule } from './indicadores/tecnoparque/tecnoparque.module'
     }),
     AuthModule,
     TecnoParqueModule,
+    TecnoAcademiaModule,
+    LaboratorioModule,
+    InvestigacionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
