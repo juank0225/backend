@@ -45,41 +45,40 @@ export class InvestigacionService {
   }
 
   private obtenerFiltroFecha(periodo: string) {
-    const hoy = new Date('2025-11-01');
+    const hoy = new Date(); // Usar la fecha actual real
     
     switch (periodo) {
       case 'semana':
-        const inicioSemana = new Date(hoy);
-        inicioSemana.setDate(hoy.getDate() - hoy.getDay() + 1);
-        const finSemana = new Date(hoy);
-        finSemana.setDate(hoy.getDate() - hoy.getDay() + 7);
+        // Últimos 7 días desde hoy
+        const inicioDia = new Date(hoy);
+        inicioDia.setDate(hoy.getDate() - 6);
         
         return {
           fecha: Between(
-            inicioSemana.toISOString().split('T')[0],
-            finSemana.toISOString().split('T')[0]
+            inicioDia.toISOString().split('T')[0],
+            hoy.toISOString().split('T')[0]
           ),
         };
 
       case 'mes':
+        // Desde el día 1 del mes actual hasta hoy
         const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
-        const finMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
         
         return {
           fecha: Between(
             inicioMes.toISOString().split('T')[0],
-            finMes.toISOString().split('T')[0]
+            hoy.toISOString().split('T')[0]
           ),
         };
 
       case 'año':
+        // Desde el 1 de enero del año actual hasta hoy
         const inicioAno = new Date(hoy.getFullYear(), 0, 1);
-        const finAno = new Date(hoy.getFullYear(), 11, 31);
         
         return {
           fecha: Between(
             inicioAno.toISOString().split('T')[0],
-            finAno.toISOString().split('T')[0]
+            hoy.toISOString().split('T')[0]
           ),
         };
 
