@@ -6,9 +6,6 @@ export class Login {
   @PrimaryGeneratedColumn({ name: 'id_login' })
   id: number;
 
-  @Column({ length: 255, unique: true })
-  usuario: string;
-
   @Column({ name: 'password_hash' })
   passwordHash: string;
 
@@ -17,7 +14,7 @@ export class Login {
   user: User;
 
   @Column({ name: 'last_login', type: 'datetime', nullable: true })
-  lastLogin: Date;
+  lastLogin: Date | null;
 
   @Column({ name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

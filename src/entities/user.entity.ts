@@ -19,7 +19,7 @@ export class User {
   @Column({ length: 20, nullable: true })
   celular: string;
 
-  @Column({ 
+  @Column({
     name: 'tipo_doc',
     type: 'enum',
     enum: ['CC', 'CE', 'TI', 'PASAPORTE']
@@ -35,9 +35,6 @@ export class User {
     default: 'Activo'
   })
   estado: string;
-
-  @Column({ length: 255, nullable: true })
-  ubicacion: string;
 
   @ManyToOne(() => Role)
   @JoinColumn({ name: 'id_rol' })
