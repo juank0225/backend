@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between } from 'typeorm';
 import { IndicadoresTecnoParque } from '../../entities/indicadores-tecnoparque.entity';
+import { CreateIndicadorTecnoparqueDto } from './dto/create-indicador-tecnoparque.dto';
 
 @Injectable()
 export class TecnoParqueService {
@@ -9,6 +10,21 @@ export class TecnoParqueService {
     @InjectRepository(IndicadoresTecnoParque)
     private readonly indicadoresRepo: Repository<IndicadoresTecnoParque>,
   ) { }
+
+  async crearIndicador(dto: CreateIndicadorTecnoparqueDto) {
+    const nuevoIndicador = this.indicadoresRepo.create({
+      fecha: dto.fecha,
+      proyectos: dto.proyectos,
+      articulaciones: dto.articulaciones,
+      visitas: dto.visitas,
+      giras: dto.giras,
+      asesorias: dto.asesorias,
+      tipoRegistro: dto.tipoRegistro,
+      observaciones: dto.observaciones?.trim() || undefined,
+    });
+
+    return await this.indicadoresRepo.save(nuevoIndicador);
+  }
 
   async obtenerIndicadores(periodo: string) {
     const where = this.obtenerFiltroFecha(periodo);
@@ -56,7 +72,7 @@ export class TecnoParqueService {
 
     switch (periodo) {
       case 'semana': {
-        const diaSemana = hoy.getDay(); // domingo=0, lunes=1, ...
+        const diaSemana = hoy.getDay();
         const diffLunes = diaSemana === 0 ? 6 : diaSemana - 1;
 
         const inicioSemana = new Date(hoy);

@@ -15,7 +15,7 @@ import { InvestigacionModule } from './indicadores/investigacion/investigacion.m
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '', 
+      password: 'Admin123456$', 
       database: 'sistema_indicadores',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: false, 

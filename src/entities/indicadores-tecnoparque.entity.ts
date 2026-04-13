@@ -8,38 +8,42 @@ export class IndicadoresTecnoParque {
   @Column({ type: 'date' })
   fecha: Date;
 
-  @Column({ default: 0 })
+  @Column({ type: 'int', default: 0 })
   proyectos: number;
 
-  @Column({ default: 0 })
+  @Column({ type: 'int', default: 0 })
   articulaciones: number;
 
-  @Column({ default: 0 })
+  @Column({ type: 'int', default: 0 })
   visitas: number;
 
-  @Column({ default: 0 })
+  @Column({ type: 'int', default: 0 })
   giras: number;
 
-  @Column({ default: 0 })
+  @Column({ type: 'int', default: 0 })
   asesorias: number;
 
   @Column({
     name: 'tipo_registro',
     type: 'enum',
     enum: ['diario', 'acumulado'],
-    default: 'diario'
+    default: 'diario',
   })
-  tipoRegistro: string;
+  tipoRegistro: 'diario' | 'acumulado';
 
-  @Column({ length: 50, nullable: true })
-  unidad: string;
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  unidad?: string;
 
   @Column({ type: 'text', nullable: true })
-  observaciones: string;
+  observaciones?: string;
 
   @Column({ name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ name: 'updated_at', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'updated_at',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 }
