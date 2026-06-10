@@ -29,7 +29,7 @@ export class AuthService {
 
     const user = await this.userRepository.findOne({
       where: { correo },
-      relations: ['rol', 'linea'],
+      relations: ['rol', 'linea', 'linea.nodo'],
     });
 
     if (!user) {
@@ -38,7 +38,7 @@ export class AuthService {
 
     const login = await this.loginRepository.findOne({
       where: { user: { id: user.id } },
-      relations: ['user', 'user.rol', 'user.linea'],
+      relations: ['user', 'user.rol', 'user.linea', 'user.linea.nodo'],
     });
 
     if (!login || !bcrypt.compareSync(password, login.passwordHash)) {
@@ -52,12 +52,36 @@ export class AuthService {
       sub: login.user.id,
       correo: login.user.correo,
       rol: login.user.rol?.nombreRol || null,
-      lineaId: login.user.linea?.id || null,
+      lineaId: login.user.linea?.idLinea || null,
     };
 
     return {
       access_token: this.jwtService.sign(payload),
-      user: login.user,
+      user: {
+        id: login.user.id,
+        nombre: login.user.nombre,
+        apellido: login.user.apellido,
+        correo: login.user.correo,
+        estado: login.user.estado,
+        rol: login.user.rol
+          ? {
+            id: login.user.rol.id,
+            nombreRol: login.user.rol.nombreRol,
+          }
+          : null,
+        linea: login.user.linea
+          ? {
+            idLinea: login.user.linea.idLinea,
+            nombreLinea: login.user.linea.nombreLinea,
+            nodo: login.user.linea.nodo
+              ? {
+                idNodo: login.user.linea.nodo.idNodo,
+                nombreNodo: login.user.linea.nodo.nombreNodo,
+              }
+              : null,
+          }
+          : null,
+      },
     };
   }
 
@@ -100,7 +124,7 @@ export class AuthService {
       numDoc,
       estado: 'Activo',
       rol: { id: 2 } as any,
-      linea: { id: lineaId } as any,
+      linea: lineaId ? ({ idLinea: lineaId } as any) : null,
     });
 
     const usuarioGuardado = await this.userRepository.save(nuevoUsuario);

@@ -1,16 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Nodo } from './nodo.entity';
+import { User } from './user.entity';
 
 @Entity('lineas')
 export class Linea {
   @PrimaryGeneratedColumn({ name: 'id_linea' })
-  id: number;
+  idLinea!: number;
 
-  @Column({ name: 'nombre_linea', length: 50, unique: true })
-  nombreLinea: string;
+  @Column({ name: 'nombre_linea', type: 'varchar', length: 100 })
+  nombreLinea!: string;
 
-  @Column({ name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
+  @ManyToOne(() => Nodo, (nodo) => nodo.lineas, { nullable: false, eager: true })
+  @JoinColumn({ name: 'id_nodo' })
+  nodo!: Nodo;
 
-  @Column({ name: 'updated_at', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
+  @OneToMany(() => User, (user) => user.linea)
+  usuarios!: User[];
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date;
 }

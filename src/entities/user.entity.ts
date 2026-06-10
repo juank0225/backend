@@ -5,48 +5,48 @@ import { Linea } from './linea.entity';
 @Entity('usuarios')
 export class User {
   @PrimaryGeneratedColumn({ name: 'id_usuario' })
-  id: number;
+  id!: number;
 
   @Column({ length: 100 })
-  nombre: string;
+  nombre!: string;
 
   @Column({ length: 100 })
-  apellido: string;
+  apellido!: string;
 
   @Column({ length: 255, unique: true })
-  correo: string;
+  correo!: string;
 
   @Column({ length: 20, nullable: true })
-  celular: string;
+  celular?: string;
 
   @Column({
     name: 'tipo_doc',
     type: 'enum',
     enum: ['CC', 'CE', 'TI', 'PASAPORTE']
   })
-  tipoDoc: string;
+  tipoDoc!: string;
 
   @Column({ name: 'num_doc', length: 50, unique: true })
-  numDoc: string;
+  numDoc!: string;
 
   @Column({
     type: 'enum',
     enum: ['Activo', 'Inactivo'],
     default: 'Activo'
   })
-  estado: string;
+  estado!: string;
 
-  @ManyToOne(() => Role)
+  @ManyToOne(() => Role, (role) => role.users, { eager: true })
   @JoinColumn({ name: 'id_rol' })
-  rol: Role;
+  rol!: Role;
 
-  @ManyToOne(() => Linea, { nullable: true })
+  @ManyToOne(() => Linea, (linea) => linea.usuarios, { nullable: true, eager: true })
   @JoinColumn({ name: 'id_linea' })
-  linea: Linea;
+  linea!: Linea | null;
 
   @Column({ name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @Column({ name: 'updated_at', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
+  updatedAt!: Date;
 }
